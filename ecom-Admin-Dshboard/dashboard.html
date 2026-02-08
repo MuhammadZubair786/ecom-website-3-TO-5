@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - AdminPro</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+        .hide{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <div id="sidebar-container"></div>
+      <div class="main-content">
+        <div class="header">
+          <h1 class="page-title">Dashboard Overview</h1>
+          <div class="user-profile">
+            <span id="user-name">Admin</span>
+          </div>
+        </div>
+
+        <div id="loading" style="text-align: center;">
+                  <img src="https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyN3VreHppNzd3Nno3em01NnR0OWFoNzZ3cHI2NGY4NDU2OGZwcTdhOCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/L05HgB2h6qICDs5Sms/200.gif"/>
+
+        </div>
+
+        <div class="stats-grid hide" id="cards">
+          <div class="stat-card">
+            <div class="stat-title">Total Users</div>
+            <div class="stat-value" id="stats-users">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Categories</div>
+            <div class="stat-value" id="stats-categories">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Products</div>
+            <div class="stat-value" id="stats-products">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Total Orders</div>
+            <div class="stat-value" id="stats-orders">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      // //checkauth();
+      document.getElementById("sidebar-container").innerHTML = getSidebar();
+
+      const currentUser = JSON.parse(localStorage.getItem("current_user"));
+      document.getElementById("user-name").textContent = currentUser.name;
+
+      // Load Stats
+      document.getElementById("stats-users").textContent =
+        getData("users").length;
+      document.getElementById("stats-categories").textContent =
+        getData("categories").length;
+      document.getElementById("stats-products").textContent =
+        getData("products").length;
+      document.getElementById("stats-orders").textContent =
+        getData("orders").length;
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAclrl8JXJB-N9EsOV0nJFvzhiaVxNhLH0",
+        authDomain: "ecom-app-8a0f8.firebaseapp.com",
+        databaseURL: "https://ecom-app-8a0f8-default-rtdb.firebaseio.com",
+        projectId: "ecom-app-8a0f8",
+        storageBucket: "ecom-app-8a0f8.firebasestorage.app",
+        messagingSenderId: "557396142894",
+        appId: "1:557396142894:web:6649927edb7cd5281ce8bf",
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="dashboad.js"></script>
+  </body>
+</html>

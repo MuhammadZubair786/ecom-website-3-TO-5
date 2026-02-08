@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - AdminPro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <div id="sidebar-container"></div>
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Orders</h1>
+                <button class="btn btn-sm" onclick="openModal()">+ Add Order</button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Data here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Edit Order</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="modal-form">
+                <input type="hidden" id="edit-id">
+                <div class="form-group">
+                    <label class="form-label">Customer Name</label>
+                    <input type="text" class="form-input" id="ord-user" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Total Amount</label>
+                    <input type="number" class="form-input" id="ord-total" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-input" id="ord-status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        //checkauth();
+        document.getElementById('sidebar-container').innerHTML = getSidebar();
+
+        let orders = getData('orders');
+        const tableBody = document.getElementById('table-body');
+        const modal = document.getElementById('modal');
+        const modalForm = document.getElementById('modal-form');
+
+        function render() {
+            tableBody.innerHTML = orders.map(o => `
+                <tr>
+                    <td>#${o.id}</td>
+                    <td>${o.user}</td>
+                    <td>$${o.total}</td>
+                    <td><span class="status-badge ${o.status.toLowerCase()}">${o.status}</span></td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="edit(${o.id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="del(${o.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openModal(id = null) {
+            document.getElementById('edit-id').value = id || '';
+            document.getElementById('modal-title').textContent = id ? 'Edit Order' : 'Add Order';
+            if (id) {
+                const o = orders.find(ord => ord.id === id);
+                document.getElementById('ord-user').value = o.user;
+                document.getElementById('ord-total').value = o.total;
+                document.getElementById('ord-status').value = o.status;
+            } else {
+                modalForm.reset();
+            }
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        function edit(id) {
+            openModal(id);
+        }
+
+        function del(id) {
+            if(confirm('Are you sure?')) {
+                orders = orders.filter(o => o.id !== id);
+                setData('orders', orders);
+                render();
+            }
+        }
+
+        modalForm.onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const user = document.getElementById('ord-user').value;
+            const total = document.getElementById('ord-total').value;
+            const status = document.getElementById('ord-status').value;
+
+            if (id) {
+                const index = orders.findIndex(o => o.id == id);
+                orders[index] = { id: parseInt(id), user, total: parseInt(total), status };
+            } else {
+                const newId = orders.length > 0 ? Math.max(...orders.map(o => o.id)) + 1 : 101;
+                orders.push({ id: newId, user, total: parseInt(total), status });
+            }
+            setData('orders', orders);
+            render();
+            closeModal();
+        };
+
+        render();
+    </script>
+</body>
+</html>

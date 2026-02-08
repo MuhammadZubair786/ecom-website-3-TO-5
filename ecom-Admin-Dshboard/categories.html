@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categories - AdminPro</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      button:hover{
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <div id="sidebar-container"></div>
+      <div class="main-content">
+        <div class="header">
+          <h1 class="page-title">Categories</h1>
+          <button class="btn btn-sm" onclick="openModal()">
+            + Add Category
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Product Count</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td colspan="4" style="text-align: center;">
+                  <img src="https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyN3VreHppNzd3Nno3em01NnR0OWFoNzZ3cHI2NGY4NDU2OGZwcTdhOCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/L05HgB2h6qICDs5Sms/200.gif"/>
+                </td>
+              </tr>
+              <!-- Data here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Category</h2>
+          <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        <form id="modal-form">
+          <input type="hidden" id="edit-id" />
+          <div class="form-group">
+            <label class="form-label">Category Name</label>
+            <input type="text" class="form-input" id="cat-name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product Count (Demo)</label>
+            <input
+              type="number"
+              class="form-input"
+              id="cat-count"
+              required
+              value="0"
+            />
+          </div>
+          <button type="button" class="btn" id="save" onclick="addNewData()">Save</button>
+          <button type="button" class="btn" id="updatebtn" style="display: none;" onclick="updateData()">Update</button>
+
+        </form>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAclrl8JXJB-N9EsOV0nJFvzhiaVxNhLH0",
+        authDomain: "ecom-app-8a0f8.firebaseapp.com",
+        databaseURL: "https://ecom-app-8a0f8-default-rtdb.firebaseio.com",
+        projectId: "ecom-app-8a0f8",
+        storageBucket: "ecom-app-8a0f8.firebasestorage.app",
+        messagingSenderId: "557396142894",
+        appId: "1:557396142894:web:6649927edb7cd5281ce8bf",
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      
+    </script>
+
+    <script src="script.js"></script>
+    <script src="categories.js"></script>
+  </body>
+</html>

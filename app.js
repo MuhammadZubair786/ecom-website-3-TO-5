@@ -45,7 +45,8 @@ async function signUp() {
           password: password,
           age: age,
           contactNo: contactNo,
-          userImageUrl:userImageUrl
+          userImageUrl:userImageUrl,
+      
         };
         console.log(userObject)
 

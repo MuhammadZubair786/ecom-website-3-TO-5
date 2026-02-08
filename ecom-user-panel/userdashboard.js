@@ -18,6 +18,7 @@ checkAuth();
 function logout(){
     // localStorage.removeItem("UserId")
     // localStorage.removeItem("name")
+    firebase.auth().signout()
 
     localStorage.clear()
 
